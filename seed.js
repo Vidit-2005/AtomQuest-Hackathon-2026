@@ -3,7 +3,7 @@ const db = require('./database');
 // Seed demo data
 function seed() {
   // Clear existing data
-  db.exec(`DELETE FROM audit_logs; DELETE FROM escalations; DELETE FROM checkins; DELETE FROM achievements; DELETE FROM goals; DELETE FROM goal_sheets; DELETE FROM cycles; DELETE FROM users;`);
+  db.exec(`DELETE FROM audit_logs; DELETE FROM escalations; DELETE FROM checkins; DELETE FROM achievements; DELETE FROM goals; DELETE FROM goal_sheets; DELETE FROM cycles; DELETE FROM users; DELETE FROM sqlite_sequence;`);
 
   // Insert users
   const insertUser = db.prepare(`INSERT INTO users (username, password, full_name, email, role, department, manager_id) VALUES (?,?,?,?,?,?,?)`);
@@ -46,3 +46,15 @@ function seed() {
 }
 
 seed();
+
+// If this script is executed directly (e.g., as the start command on Render),
+// we must start the Express server to prevent the application from exiting early.
+if (require.main === module) {
+  const isRender = process.env.RENDER || process.env.RENDER_SERVICE_ID;
+  const hasPort = process.env.PORT;
+  
+  if (isRender || hasPort) {
+    console.log('\nDetected hosted/server environment. Launching Express web server...');
+    require('./server');
+  }
+}
