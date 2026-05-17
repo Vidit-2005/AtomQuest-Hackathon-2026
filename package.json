@@ -4,9 +4,12 @@
   "description": "In-House Goal Setting & Tracking Portal - AtomQuest Hackathon 1.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node seed.js && node server.js",
     "dev": "node server.js",
     "seed": "node seed.js"
+  },
+  "engines": {
+    "node": "20.x"
   },
   "dependencies": {
     "better-sqlite3": "^11.0.0",
